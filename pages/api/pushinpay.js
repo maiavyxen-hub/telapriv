@@ -168,7 +168,7 @@ export default async function handler(req, res) {
       try {
         // Base URL da API PushinPay conforme documentação
         const apiBaseUrl = 'https://api.pushinpay.com.br/api';
-        const endpoint = `/transaction/${transactionId}`;
+        const endpoint = `/transactions/${transactionId}`; // ✅ CORRIGIDO: transactions (plural) conforme documentação
         const url = `${apiBaseUrl}${endpoint}`;
 
         console.log(`Consultando status do PIX na PushinPay: ${url}`);
@@ -178,7 +178,8 @@ export default async function handler(req, res) {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${apiToken}`,
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' // ✅ ADICIONADO: Content-Type conforme documentação
           }
         });
 
@@ -186,10 +187,8 @@ export default async function handler(req, res) {
 
         if (response.status === 404) {
           console.log('⚠️ Transação não encontrada na PushinPay (404)');
-          return res.status(404).json({
-            error: 'Transação não encontrada',
-            message: 'A transação não foi encontrada'
-          });
+          // ✅ CORRIGIDO: Retorna array vazio conforme documentação da API
+          return res.status(404).json([]);
         }
 
         let statusData;
