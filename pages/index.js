@@ -281,11 +281,6 @@ export default function Home() {
               <span>1 Mês</span>
               <span>R$ 1,00</span>
             </button>
-            
-            {/* Chamada de Vídeo */}
-            <button className="w-full bg-orange-100 hover:bg-orange-200 text-black py-2.5 px-4 rounded-xl font-medium transition-all mb-2 text-sm uppercase flex items-center justify-center shadow-sm">
-              <span>+ CHAMADA DE VÍDEO COMIGO HOJE!</span>
-            </button>
           </div>
           
           {/* Promotions Section */}
