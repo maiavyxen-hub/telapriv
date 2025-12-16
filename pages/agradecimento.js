@@ -175,7 +175,7 @@ export default function Agradecimento() {
                 onClick={() => {
                   if (typeof window !== 'undefined') {
                     const mensagem = `Olá! Acabei de fazer o pagamento.\\n\\nID da Transação: ${transactionId}\\n\\nPreciso de ajuda para acessar o conteúdo.`;
-                    window.open(`https://wa.me/55945843169?text=${encodeURIComponent(mensagem)}`, '_blank');
+                    window.open(`https://wa.me/5511945843169?text=${encodeURIComponent(mensagem)}`, '_blank');
                   }
                 }}
                 className="bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-green-300"
