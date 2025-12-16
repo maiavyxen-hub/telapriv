@@ -41,7 +41,7 @@ TELEGRAM_BOT_TOKEN=seu_bot_token_aqui
 TELEGRAM_CHAT_ID=seu_chat_id_aqui
 
 # WhatsApp
-WHATSAPP_NUMBER=5547997118690
+WHATSAPP_NUMBER=55945843169
 
 # Valores dos Planos (em centavos)
 PLANO_VITALICIO_19_90=1990
