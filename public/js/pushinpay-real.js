@@ -365,12 +365,45 @@ const PushinPayReal = {
           this.atualizarStatus('✅ Pagamento confirmado! Liberando acesso...');
           this.pararVerificacao();
 
-          window.dispatchEvent(new CustomEvent('paymentConfirmed', {
-            detail: {
-              transactionId: this.estado.transactionId,
-              status: status,
-              value: transactionData.amount || this.estado.valorAtual / 100
+          // Salvar pagamento confirmado no localStorage e no servidor
+          const dadosPagamento = {
+            transactionId: this.estado.transactionId,
+            status: status,
+            value: transactionData.amount || this.estado.valorAtual / 100,
+            timestamp: new Date().toISOString(),
+            plano: this.config.planoAtual
+          };
+          
+          // Salvar no localStorage
+          try {
+            localStorage.setItem('pagamento_confirmado', JSON.stringify(dadosPagamento));
+            console.log('✅ Pagamento salvo no localStorage para acesso futuro:', dadosPagamento.transactionId);
+          } catch (error) {
+            console.warn('⚠️ Erro ao salvar pagamento no localStorage:', error);
+          }
+
+          // Salvar no servidor
+          try {
+            const saveResponse = await fetch('/api/save-payment', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(dadosPagamento)
+            });
+
+            if (saveResponse.ok) {
+              console.log('✅ Pagamento salvo no servidor com sucesso');
+            } else {
+              console.warn('⚠️ Erro ao salvar pagamento no servidor:', await saveResponse.text());
             }
+          } catch (saveError) {
+            console.warn('⚠️ Erro ao salvar pagamento no servidor:', saveError);
+            // Não bloquear o fluxo se falhar
+          }
+
+          window.dispatchEvent(new CustomEvent('paymentConfirmed', {
+            detail: dadosPagamento
           }));
 
           if (typeof fbq !== 'undefined') {

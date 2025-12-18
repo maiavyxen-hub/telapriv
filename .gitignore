@@ -68,6 +68,9 @@ remarketing.html
 links-rastreamento.html
 database.json
 
+# Dados de pagamentos (contém informações sensíveis)
+data/
+
 # Backups locais
 backup/
 

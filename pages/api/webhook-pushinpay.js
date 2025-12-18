@@ -1,6 +1,14 @@
 // Webhook para receber notificações da PushinPay
 // Este endpoint é chamado automaticamente pela PushinPay quando o status do pagamento muda
 
+import { Redis } from '@upstash/redis';
+
+// Inicializar Redis usando variáveis de ambiente com prefixo privpayment_
+const redis = new Redis({
+  url: process.env['privpayment_KV_REST_API_URL'] || process.env.KV_REST_API_URL,
+  token: process.env['privpayment_KV_REST_API_TOKEN'] || process.env.KV_REST_API_TOKEN,
+});
+
 export default async function handler(req, res) {
   // Apenas permitir POST
   if (req.method !== 'POST') {
@@ -82,8 +90,29 @@ export default async function handler(req, res) {
         // Não falhar o webhook se o Telegram falhar
       }
 
+      // Salvar pagamento confirmado no Upstash Redis
+      try {
+        const valorEmReais = value ? (typeof value === 'number' ? value / 100 : parseFloat(value) / 100) : 0;
+        
+        const paymentData = {
+          transactionId: transactionId,
+          status: status,
+          value: valorEmReais,
+          timestamp: new Date().toISOString(),
+          plano: payload.plano || 'Não especificado',
+          createdAt: new Date().toISOString()
+        };
+        
+        await redis.set(`payment:${transactionId}`, JSON.stringify(paymentData));
+        await redis.sadd('payments:list', transactionId);
+        
+        console.log('✅ Pagamento salvo no Upstash Redis com sucesso');
+      } catch (saveError) {
+        console.warn('⚠️ Erro ao salvar pagamento no Upstash Redis:', saveError);
+        // Não falhar o webhook se o salvamento falhar
+      }
+
       // Aqui você pode adicionar outras ações:
-      // - Salvar no banco de dados
       // - Enviar email
       // - Atualizar status no sistema
       // - etc.

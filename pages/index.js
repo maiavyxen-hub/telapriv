@@ -13,6 +13,9 @@ export default function Home() {
   const [currentPlan, setCurrentPlan] = useState('1 Mês');
   const [imageVersion, setImageVersion] = useState('');
   const [mounted, setMounted] = useState(false);
+  const [verificandoAcesso, setVerificandoAcesso] = useState(true);
+  const [temAcesso, setTemAcesso] = useState(false);
+  const [dadosPagamento, setDadosPagamento] = useState(null);
   
   useEffect(() => {
     // Marcar como montado no cliente
@@ -31,8 +34,130 @@ export default function Home() {
       window.forceImageReload = () => {
         setImageVersion(Date.now());
       };
+
+      // Verificar se o usuário já tem acesso
+      verificarAcessoPagamento();
     }
   }, []);
+
+  const verificarAcessoPagamento = async () => {
+    try {
+      setVerificandoAcesso(true);
+      
+      // Verificar localStorage primeiro
+      const pagamentoSalvo = localStorage.getItem('pagamento_confirmado');
+      let transactionId = null;
+      let dados = null;
+
+      if (pagamentoSalvo) {
+        try {
+          dados = JSON.parse(pagamentoSalvo);
+          transactionId = dados.transactionId;
+        } catch (e) {
+          console.warn('Erro ao parsear localStorage:', e);
+        }
+      }
+
+      // Se não tem transactionId no localStorage, não tem como verificar
+      if (!transactionId || transactionId === 'N/A') {
+        setVerificandoAcesso(false);
+        return;
+      }
+
+      // Primeiro: Verificar no servidor (arquivo salvo)
+      try {
+        const serverResponse = await fetch(`/api/check-access?transactionId=${encodeURIComponent(transactionId)}`);
+        
+        if (serverResponse.ok) {
+          const serverData = await serverResponse.json();
+          
+          if (serverData.hasAccess) {
+            // Tem acesso confirmado no servidor!
+            setTemAcesso(true);
+            setDadosPagamento(serverData.payment || dados);
+            console.log('✅ Acesso confirmado no servidor! Transaction ID:', transactionId);
+            setVerificandoAcesso(false);
+            return;
+          }
+        }
+      } catch (serverError) {
+        console.warn('⚠️ Erro ao verificar no servidor:', serverError);
+        // Continuar para verificar na API PushinPay
+      }
+
+      // Segundo: Verificar na API PushinPay se o pagamento ainda está válido
+      const response = await fetch('/api/pushinpay', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'check-payment',
+          transactionId: transactionId
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const transactionData = data.data || data;
+        const status = transactionData.status?.toLowerCase();
+        
+        const isPagamentoConfirmado = status === 'paid' || status === 'approved' || status === 'confirmed';
+        
+        if (isPagamentoConfirmado) {
+          // Pagamento válido na PushinPay - salvar no servidor também
+          try {
+            await fetch('/api/save-payment', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                transactionId: transactionId,
+                status: status,
+                value: transactionData.amount || transactionData.value || dados?.value,
+                timestamp: new Date().toISOString(),
+                plano: dados?.plano || 'Não especificado'
+              })
+            });
+          } catch (saveError) {
+            console.warn('⚠️ Erro ao salvar no servidor:', saveError);
+          }
+
+          setTemAcesso(true);
+          setDadosPagamento(dados);
+          console.log('✅ Usuário já tem acesso confirmado! Transaction ID:', transactionId);
+        } else {
+          // Pagamento não está mais válido, limpar localStorage
+          localStorage.removeItem('pagamento_confirmado');
+          console.log('⚠️ Pagamento não está mais válido. Status:', status);
+        }
+      } else {
+        // Erro ao verificar na PushinPay, verificar se tem no servidor como fallback
+        if (dados) {
+          console.warn('⚠️ Erro ao verificar na PushinPay, usando dados do localStorage');
+          setTemAcesso(true);
+          setDadosPagamento(dados);
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao verificar acesso:', error);
+      // Em caso de erro, manter acesso se já estava salvo
+      const pagamentoSalvo = localStorage.getItem('pagamento_confirmado');
+      if (pagamentoSalvo) {
+        try {
+          const dados = JSON.parse(pagamentoSalvo);
+          setTemAcesso(true);
+          setDadosPagamento(dados);
+        } catch (e) {
+          // Ignorar erro de parse
+        }
+      }
+    } finally {
+      setVerificandoAcesso(false);
+    }
+  };
 
 
 
@@ -183,6 +308,39 @@ export default function Home() {
 
       {/* Linha separadora */}
       <div className="border-t border-gray-200"></div>
+
+      {/* Banner de Acesso Confirmado */}
+      {temAcesso && !verificandoAcesso && (
+        <div className="max-w-3xl mx-auto mt-4 mb-4">
+          <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4 flex items-center justify-between shadow-sm">
+            <div className="flex items-center space-x-3">
+              <div className="flex-shrink-0">
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <div>
+                <p className="text-green-800 font-semibold">Acesso Confirmado!</p>
+                <p className="text-green-600 text-sm">Você já tem acesso ao conteúdo exclusivo</p>
+                {dadosPagamento && dadosPagamento.transactionId && (
+                  <p className="text-green-500 text-xs mt-1">ID: {dadosPagamento.transactionId.substring(0, 8)}...</p>
+                )}
+              </div>
+            </div>
+            <a 
+              href="https://www.luninhalves.shop/*"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium flex items-center space-x-2 shadow-md"
+            >
+              <span>🔓 Acessar Conteúdo</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      )}
 
       {/* Main Card */}
       <div className="relative max-w-3xl mx-auto rounded-3xl overflow-hidden bg-white shadow-lg mt-4">

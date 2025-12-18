@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export default function Agradecimento() {
   const router = useRouter();
@@ -10,6 +11,25 @@ export default function Agradecimento() {
   const transactionId = id || 'N/A';
   const valorExibido = valor || '9,90';
   const statusPagamento = status || 'paid';
+
+  // Salvar pagamento confirmado no localStorage quando a página carregar
+  useEffect(() => {
+    if (typeof window !== 'undefined' && transactionId && transactionId !== 'N/A' && statusPagamento === 'paid') {
+      const dadosPagamento = {
+        transactionId: transactionId,
+        status: statusPagamento,
+        value: parseFloat(valorExibido.replace(',', '.')),
+        timestamp: new Date().toISOString()
+      };
+      
+      try {
+        localStorage.setItem('pagamento_confirmado', JSON.stringify(dadosPagamento));
+        console.log('✅ Pagamento salvo no localStorage para acesso futuro:', transactionId);
+      } catch (error) {
+        console.warn('⚠️ Erro ao salvar pagamento no localStorage:', error);
+      }
+    }
+  }, [transactionId, statusPagamento, valorExibido]);
 
   return (
     <>
