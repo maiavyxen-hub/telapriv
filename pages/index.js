@@ -442,9 +442,9 @@ export default function Home() {
           <div className="mt-3">
             <h6 className="text-lg font-bold text-gray-800 mb-2">Assinaturas</h6>
             
-            <button onClick={() => handlePayment(19.90, 'Plano Mensal 19,90')} className="w-full subscription-gradient text-black py-4 px-6 rounded-2xl font-medium transition-all mb-2 flex justify-between items-center shadow-sm">
+            <button onClick={() => handlePayment(24.90, 'Plano Mensal 24,90')} className="w-full subscription-gradient text-black py-4 px-6 rounded-2xl font-medium transition-all mb-2 flex justify-between items-center shadow-sm">
               <span>Plano Mensal</span>
-              <span>R$ 19,90</span>
+              <span>R$ 24,90</span>
             </button>
           </div>
           
@@ -457,14 +457,14 @@ export default function Home() {
               </svg>
             </div>
             
-            <button onClick={() => handlePayment(47.76, 'Plano 3 Meses (20% OFF) – R$ 47,76')} className="w-full subscription-gradient text-black py-4 px-6 rounded-2xl font-medium transition-all mb-2 flex justify-between items-center shadow-sm">
+            <button onClick={() => handlePayment(59.76, 'Plano 3 Meses (20% OFF) – R$ 59,76')} className="w-full subscription-gradient text-black py-4 px-6 rounded-2xl font-medium transition-all mb-2 flex justify-between items-center shadow-sm">
               <span>Plano 3 Meses (20% OFF)</span>
-              <span>R$ 47,76</span>
+              <span>R$ 59,76</span>
             </button>
             
-            <button onClick={() => handlePayment(59.70, 'Plano 6 Meses (50% OFF) – R$ 59,70')} className="w-full subscription-gradient text-black py-4 px-6 rounded-2xl font-medium transition-all flex justify-between items-center shadow-sm">
+            <button onClick={() => handlePayment(74.70, 'Plano 6 Meses (50% OFF) – R$ 74,70')} className="w-full subscription-gradient text-black py-4 px-6 rounded-2xl font-medium transition-all flex justify-between items-center shadow-sm">
               <span>Plano 6 Meses (50% OFF)</span>
-              <span>R$ 59,70</span>
+              <span>R$ 74,70</span>
             </button>
           </div>
         </div>
@@ -483,8 +483,9 @@ export default function Home() {
               }`}
             >
               <div className="flex items-center space-x-2">
-                <svg className={`w-5 h-5 transition-transform duration-300 ${activeTab === 'posts' ? 'scale-110' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                <svg className={`w-5 h-5 transition-transform duration-300 ${activeTab === 'posts' ? 'scale-110' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  {/* Ícone de documento/postagem */}
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>
                 <span className="font-medium">513 Postagens</span>
               </div>
@@ -499,8 +500,9 @@ export default function Home() {
               }`}
             >
               <div className="flex items-center space-x-2">
-                <svg className={`w-5 h-5 transition-transform duration-300 ${activeTab === 'medias' ? 'scale-110 animate-pulse' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                <svg className={`w-5 h-5 transition-transform duration-300 ${activeTab === 'medias' ? 'scale-110' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  {/* Ícone de vídeo */}
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                 </svg>
                 <span className="font-medium">541 Mídias</span>
               </div>
@@ -580,6 +582,13 @@ export default function Home() {
                 <div className="flex justify-center space-x-8 text-white">
                   <div className="flex items-center space-x-2">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                    <span className="text-sm">387</span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
                     <span className="text-sm">541</span>
@@ -591,15 +600,37 @@ export default function Home() {
                     </svg>
                     <span className="text-sm">285.7K</span>
                   </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                    </svg>
-                    <span className="text-sm">21.7K</span>
-                  </div>
                 </div>
               </div>
+            </div>
+            
+            {/* Interaction Icons */}
+            <div className="flex items-center justify-between px-2 py-3 border-t border-gray-200">
+              <div className="flex items-center space-x-6">
+                <button className="flex items-center space-x-1 text-gray-700 hover:text-red-500 transition-colors">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                  </svg>
+                </button>
+                
+                <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-500 transition-colors">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                  </svg>
+                </button>
+                
+                <button className="flex items-center space-x-1 text-gray-700 hover:text-green-500 transition-colors">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </button>
+              </div>
+              
+              <button className="flex items-center text-gray-700 hover:text-yellow-500 transition-colors">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                </svg>
+              </button>
             </div>
           </div>
         )}
