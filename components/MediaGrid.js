@@ -7,15 +7,15 @@ export default function MediaGrid() {
   
   // Media com imagens do Imgur - leves e otimizadas
   const media = [
-    { src: 'https://i.imgur.com/0GPp7R8.jpg', type: 'image' },
-    { src: 'https://i.imgur.com/QSSIxjT.jpg', type: 'image' },
-    { src: 'https://i.imgur.com/Sak1bbf.jpg', type: 'image' },
-    { src: 'https://i.imgur.com/0Dz3nE3.jpg', type: 'image' },
-    { src: 'https://i.imgur.com/CP91O0T.jpg', type: 'image' },
-    { src: 'https://i.imgur.com/aNi7xyI.jpg', type: 'image' },
-    { src: 'https://i.imgur.com/l90y6Uv.jpg', type: 'image' },
-    { src: 'https://i.imgur.com/j5CM79w.jpg', type: 'image' },
-    { src: 'https://i.imgur.com/oAOne2I.jpg', type: 'image' },
+    { src: 'https://i.imgur.com/cvtqIQ2.jpg', type: 'image' },
+    { src: 'https://i.imgur.com/gJH8BVD.jpg', type: 'image' },
+    { src: 'https://i.imgur.com/xhv8SIQ.jpg', type: 'image' },
+    { src: 'https://i.imgur.com/X2vmwjl.jpg', type: 'image' },
+    { src: 'https://i.imgur.com/tzZJeQV.jpg', type: 'image' },
+    { src: 'https://i.imgur.com/m4h9xG3.jpg', type: 'image' },
+    { src: 'https://i.imgur.com/f7mQ4LW.jpg', type: 'image' },
+    { src: 'https://i.imgur.com/C9PBGVs.jpg', type: 'image' },
+    { src: 'https://i.imgur.com/0yOdoR5.jpg', type: 'image' },
   ];
 
   // Lazy load vídeos apenas quando entrarem na viewport

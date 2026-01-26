@@ -7,18 +7,21 @@ export default function LateralVideos() {
   const [currentPlayingIndex, setCurrentPlayingIndex] = useState(null);
   
   const videos = [
-    { src: 'https://i.imgur.com/0GPp7R8.mp4', poster: 'https://i.imgur.com/0GPp7R8.jpg', index: 0 },
-    { src: 'https://i.imgur.com/QSSIxjT.mp4', poster: 'https://i.imgur.com/QSSIxjT.jpg', index: 1 },
-    { src: 'https://i.imgur.com/Sak1bbf.mp4', poster: 'https://i.imgur.com/Sak1bbf.jpg', index: 2 },
-    { src: 'https://i.imgur.com/0Dz3nE3.mp4', poster: 'https://i.imgur.com/0Dz3nE3.jpg', index: 3 },
-    { src: 'https://i.imgur.com/CP91O0T.mp4', poster: 'https://i.imgur.com/CP91O0T.jpg', index: 4 },
-    { src: 'https://i.imgur.com/aNi7xyI.mp4', poster: 'https://i.imgur.com/aNi7xyI.jpg', index: 5 },
-    { src: 'https://i.imgur.com/l90y6Uv.mp4', poster: 'https://i.imgur.com/l90y6Uv.jpg', index: 6 },
-    { src: 'https://i.imgur.com/j5CM79w.mp4', poster: 'https://i.imgur.com/j5CM79w.jpg', index: 7 },
-    { src: 'https://i.imgur.com/oAOne2I.mp4', poster: 'https://i.imgur.com/oAOne2I.jpg', index: 8 }
+    { src: 'https://i.imgur.com/cvtqIQ2.jpg', poster: 'https://i.imgur.com/cvtqIQ2.jpg', index: 0, type: 'image' },
+    { src: 'https://i.imgur.com/gJH8BVD.jpg', poster: 'https://i.imgur.com/gJH8BVD.jpg', index: 1, type: 'image' },
+    { src: 'https://i.imgur.com/xhv8SIQ.jpg', poster: 'https://i.imgur.com/xhv8SIQ.jpg', index: 2, type: 'image' },
+    { src: 'https://i.imgur.com/X2vmwjl.jpg', poster: 'https://i.imgur.com/X2vmwjl.jpg', index: 3, type: 'image' },
+    { src: 'https://i.imgur.com/tzZJeQV.jpg', poster: 'https://i.imgur.com/tzZJeQV.jpg', index: 4, type: 'image' },
+    { src: 'https://i.imgur.com/m4h9xG3.jpg', poster: 'https://i.imgur.com/m4h9xG3.jpg', index: 5, type: 'image' },
+    { src: 'https://i.imgur.com/f7mQ4LW.jpg', poster: 'https://i.imgur.com/f7mQ4LW.jpg', index: 6, type: 'image' },
+    { src: 'https://i.imgur.com/C9PBGVs.jpg', poster: 'https://i.imgur.com/C9PBGVs.jpg', index: 7, type: 'image' },
+    { src: 'https://i.imgur.com/0yOdoR5.jpg', poster: 'https://i.imgur.com/0yOdoR5.jpg', index: 8, type: 'image' }
   ];
 
   const handleMouseEnter = (index) => {
+    const item = videos.find(v => v.index === index);
+    if (item && item.type === 'image') return; // Não fazer nada para imagens
+    
     const video = videoRefs.current[`video-${index}`];
     if (video && !video.dataset.keepPlaying) {
       if (!loadedVideos[index] && video.readyState === 0) {
@@ -49,6 +52,9 @@ export default function LateralVideos() {
   };
 
   const handleMouseLeave = (index) => {
+    const item = videos.find(v => v.index === index);
+    if (item && item.type === 'image') return; // Não fazer nada para imagens
+    
     const video = videoRefs.current[`video-${index}`];
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
@@ -65,6 +71,9 @@ export default function LateralVideos() {
   };
 
   const handleClick = (index) => {
+    const item = videos.find(v => v.index === index);
+    if (item && item.type === 'image') return; // Não fazer nada para imagens
+    
     const video = videoRefs.current[`video-${index}`];
     
     if (video) {
@@ -149,54 +158,67 @@ export default function LateralVideos() {
             handleClick(item.index);
           }}
         >
-          {/* Thumbnail/Preview */}
-          <img 
-            src={item.poster} 
-            alt={`Preview ${item.index + 1}`}
-            className={`w-full h-full object-cover rounded-lg media-blur transition-all duration-300 ${
-              playingVideos[item.index] ? 'opacity-0 absolute' : 'opacity-100'
-            }`}
-            loading="lazy"
-            onError={(e) => {
-              e.target.style.display = 'none';
-            }}
-          />
-          {/* Vídeo */}
-          <video 
-            ref={(el) => {
-              if (el) {
-                videoRefs.current[`video-${item.index}`] = el;
-              }
-            }}
-            className={`w-full h-full object-cover rounded-lg transition-all duration-300 ${
-              playingVideos[item.index] 
-                ? 'opacity-100' 
-                : 'opacity-0 absolute top-0 left-0'
-            } ${playingVideos[item.index] ? 'blur-0' : 'blur-5'}`}
-            muted 
-            loop
-            playsInline
-            preload="none"
-            poster={item.poster}
-          >
-            <source src={item.src} type="video/mp4" />
-            Seu navegador não suporta vídeos HTML5.
-          </video>
+          {item.type === 'image' ? (
+            <img 
+              src={item.src} 
+              alt={`Media ${item.index + 1}`}
+              className="w-full h-full object-cover rounded-lg media-blur transition-all duration-300"
+              loading="lazy"
+            />
+          ) : (
+            <>
+              {/* Thumbnail/Preview */}
+              <img 
+                src={item.poster} 
+                alt={`Preview ${item.index + 1}`}
+                className={`w-full h-full object-cover rounded-lg media-blur transition-all duration-300 ${
+                  playingVideos[item.index] ? 'opacity-0 absolute' : 'opacity-100'
+                }`}
+                loading="lazy"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+              {/* Vídeo */}
+              <video 
+                ref={(el) => {
+                  if (el) {
+                    videoRefs.current[`video-${item.index}`] = el;
+                  }
+                }}
+                className={`w-full h-full object-cover rounded-lg transition-all duration-300 ${
+                  playingVideos[item.index] 
+                    ? 'opacity-100' 
+                    : 'opacity-0 absolute top-0 left-0'
+                } ${playingVideos[item.index] ? 'blur-0' : 'blur-5'}`}
+                muted 
+                loop
+                playsInline
+                preload="none"
+                poster={item.poster}
+              >
+                <source src={item.src} type="video/mp4" />
+                Seu navegador não suporta vídeos HTML5.
+              </video>
+            </>
+          )}
           {/* Overlay */}
           <div 
             className="absolute inset-0 media-overlay rounded-lg transition-opacity duration-300 pointer-events-none" 
             style={{ 
-              opacity: playingVideos[item.index] ? 0.2 : 0.5 
+              opacity: item.type === 'video' && playingVideos[item.index] ? 0.2 : 0.5 
             }}
           ></div>
-          {/* Ícone de cadeado */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <svg className={`w-12 h-12 transition-opacity duration-300 ${
-              playingVideos[item.index] ? 'opacity-50' : 'opacity-70'
-            }`} fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#6b7280' }}>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-            </svg>
-          </div>
+          {/* Ícone de cadeado - apenas para vídeos */}
+          {item.type !== 'image' && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <svg className={`w-12 h-12 transition-opacity duration-300 ${
+                playingVideos[item.index] ? 'opacity-50' : 'opacity-70'
+              }`} fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: '#6b7280' }}>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+              </svg>
+            </div>
+          )}
         </div>
       ))}
     </div>
