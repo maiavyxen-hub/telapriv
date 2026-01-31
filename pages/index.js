@@ -443,9 +443,9 @@ export default function Home() {
               </svg>
             </div>
             
-            <button onClick={() => handlePayment(59.76, 'Plano 3 Meses (20% OFF)')} className="w-full subscription-gradient text-black py-4 px-6 rounded-2xl font-medium transition-all mb-2 flex justify-between items-center shadow-sm">
+            <button onClick={() => handlePayment(38.90, 'Plano 3 Meses (20% OFF)')} className="w-full subscription-gradient text-black py-4 px-6 rounded-2xl font-medium transition-all mb-2 flex justify-between items-center shadow-sm">
               <span>Plano 3 Meses (20% OFF)</span>
-              <span>R$ 59,76</span>
+              <span>R$ 38,90</span>
             </button>
             
             <button onClick={() => handlePayment(74.70, 'Plano 6 Meses (50% OFF)')} className="w-full subscription-gradient text-black py-4 px-6 rounded-2xl font-medium transition-all flex justify-between items-center shadow-sm">
