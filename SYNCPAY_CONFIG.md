@@ -2,8 +2,8 @@
 
 ## Credenciais SyncPay
 
-- **Client ID (Público):** `88567c16-f03b-482f-aa05-49198c1291f4`
-- **Client Secret (Privado):** `4ea1305c-086b-4242-b676-fc3b8585`
+- **Client ID (Público):** `5fd31153-0e52-4b27-bd02-4a4f760f76ce`
+- **Client Secret (Privado):** `57ef1bcb-13e4-481a-889f-dc631fda68e9`
 
 ## Variáveis de Ambiente Necessárias
 
@@ -11,8 +11,8 @@ Crie um arquivo `.env.local` na raiz do projeto com as seguintes variáveis:
 
 ```env
 # SyncPay - Credenciais
-SYNCPAY_CLIENT_ID=88567c16-f03b-482f-aa05-49198c1291f4
-SYNCPAY_CLIENT_SECRET=4ea1305c-086b-4242-b676-fc3b8585
+SYNCPAY_CLIENT_ID=5fd31153-0e52-4b27-bd02-4a4f760f76ce
+SYNCPAY_CLIENT_SECRET=57ef1bcb-13e4-481a-889f-dc631fda68e9
 SYNCPAY_BASE_URL=https://api.syncpayments.com.br
 SYNCPAY_WEBHOOK_TOKEN=seu_webhook_token_aqui
 

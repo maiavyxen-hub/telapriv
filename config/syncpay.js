@@ -3,10 +3,10 @@
 
 export const syncpayConfig = {
   // Client ID (Público)
-  clientId: '88567c16-f03b-482f-aa05-49198c1291f4',
+  clientId: '5fd31153-0e52-4b27-bd02-4a4f760f76ce',
   
   // Client Secret (Privado)
-  clientSecret: '4ea1305c-086b-4242-b676-fc3b8585',
+  clientSecret: '57ef1bcb-13e4-481a-889f-dc631fda68e9',
   
   // URL Base da API
   baseUrl: 'https://api.syncpayments.com.br'
